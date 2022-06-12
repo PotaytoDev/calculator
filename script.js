@@ -1,3 +1,5 @@
+const displayValues = {};
+
 function add(firstOperand, secondOperand)
 {
     return firstOperand + secondOperand;
@@ -43,3 +45,25 @@ function operate(operator, firstOperand, secondOperand)
 
     return result;
 }
+
+function displayNumbers(event)
+{
+    const calculatorDisplay = document.querySelector('#display');
+
+    if (calculatorDisplay.textContent.length >= 6) return;
+
+    calculatorDisplay.textContent += event.target.textContent;
+
+    // Store 'display value' in object for use in later calculations
+    displayValues.firstOperand = calculatorDisplay.textContent;
+}
+
+function addFunctionality()
+{
+    const numberButtons = document.querySelectorAll('.number-button');
+    numberButtons.forEach(numberButton => {
+        numberButton.addEventListener('click', displayNumbers)
+    });
+}
+
+addFunctionality();
