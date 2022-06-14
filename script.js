@@ -20,9 +20,18 @@ function divide(firstOperand, secondOperand)
     return firstOperand / secondOperand;
 }
 
-function operate(operator, firstOperand, secondOperand)
+function displayResult(result)
+{
+    const calculatorDisplay = document.querySelector('#display');
+    calculatorDisplay.textContent = result;
+}
+
+function operate()
 {
     let result = 0;
+    let firstOperand = displayValues.firstOperand;
+    let secondOperand = displayValues.secondOperand;
+    let operator = displayValues.operator;
 
     switch (operator)
     {
@@ -43,7 +52,24 @@ function operate(operator, firstOperand, secondOperand)
             break;
     }
 
-    return result;
+    displayResult(result);
+
+    delete displayValues.operator;
+    delete displayValues.secondOperand
+    displayValues.firstOperand = result;
+    enableOperatorButtons();
+}
+
+function disableOperatorButtons()
+{
+    const operatorButtons = document.querySelectorAll('.operator-button');
+    operatorButtons.forEach(operatorButton => operatorButton.disabled = true);
+}
+
+function enableOperatorButtons()
+{
+    const operatorButtons = document.querySelectorAll('.operator-button');
+    operatorButtons.forEach(operatorButton => operatorButton.disabled = false);
 }
 
 function displayNumbers(event)
@@ -52,18 +78,49 @@ function displayNumbers(event)
 
     if (calculatorDisplay.textContent.length >= 6) return;
 
-    calculatorDisplay.textContent += event.target.textContent;
+    if (event.target.textContent.match(/[0-9]/)  && !("operator" in displayValues))
+    {
+        enableOperatorButtons();
+    }
 
-    // Store 'display value' in object for use in later calculations
-    displayValues.firstOperand = calculatorDisplay.textContent;
+    if (calculatorDisplay.textContent === '0')
+    {
+        calculatorDisplay.textContent = event.target.textContent;
+    }
+    else
+    {
+        calculatorDisplay.textContent += event.target.textContent;
+    }
+
+    if (event.target.textContent.match(/[-+*/]/))
+    {
+        displayValues.operator = event.target.textContent;
+        disableOperatorButtons();
+    }
+
+    if (!("operator" in displayValues))
+    {
+        // Store 'display value' in object for use in later calculations
+        displayValues.firstOperand = Number(calculatorDisplay.textContent);
+    }
+    else if (("operator" in displayValues) && event.target.textContent.match(/[0-9]/))
+    {
+        const operatorIndex = calculatorDisplay.textContent.search(/\d[-+*/]/) + 2;
+        displayValues.secondOperand = Number(calculatorDisplay.textContent.substring(operatorIndex));
+    }
 }
 
 function addFunctionality()
 {
-    const numberButtons = document.querySelectorAll('.number-button');
+    const numberButtons = document.querySelectorAll('button');
     numberButtons.forEach(numberButton => {
         numberButton.addEventListener('click', displayNumbers)
     });
+
+    const buttonEquals = document.querySelector('#button-equals');
+    buttonEquals.addEventListener('click', operate);
+
+    disableOperatorButtons();
 }
 
 addFunctionality();
