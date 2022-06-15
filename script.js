@@ -26,12 +26,40 @@ function displayResult(result)
     calculatorDisplay.textContent = result;
 }
 
+function setObjectValues()
+{
+    const calculatorDisplayContent = document.querySelector('#display').textContent;
+    const operatorIndex = calculatorDisplayContent.search(/\d[-+*/]/) + 1;
+
+    displayValues.firstOperand =
+            Number(calculatorDisplayContent.substring(0, operatorIndex));
+
+    displayValues.operator = calculatorDisplayContent.charAt(operatorIndex);
+
+    displayValues.secondOperand =
+            Number(calculatorDisplayContent.substring(operatorIndex + 1));
+}
+
+
+function resetObjectValues(result)
+{
+    delete displayValues.operator;
+    delete displayValues.secondOperand
+    displayValues.firstOperand = result;
+    displayValues.hasBeenCalculated = true;
+    enableOperatorButtons();
+}
+
 function operate()
 {
+    setObjectValues();
+
     let result = 0;
     let firstOperand = displayValues.firstOperand;
     let secondOperand = displayValues.secondOperand;
     let operator = displayValues.operator;
+
+    console.log(firstOperand, operator, secondOperand);
 
     switch (operator)
     {
@@ -53,11 +81,7 @@ function operate()
     }
 
     displayResult(result);
-
-    delete displayValues.operator;
-    delete displayValues.secondOperand
-    displayValues.firstOperand = result;
-    enableOperatorButtons();
+    resetObjectValues(result);
 }
 
 function disableOperatorButtons()
@@ -78,7 +102,7 @@ function displayNumbers(event)
 
     if (calculatorDisplay.textContent.length >= 6) return;
 
-    if (event.target.textContent.match(/[0-9]/)  && !("operator" in displayValues))
+    if (!(calculatorDisplay.textContent.match(/\d[-+*/]/)))
     {
         enableOperatorButtons();
     }
@@ -94,27 +118,18 @@ function displayNumbers(event)
 
     if (event.target.textContent.match(/[-+*/]/))
     {
-        displayValues.operator = event.target.textContent;
         disableOperatorButtons();
-    }
-
-    if (!("operator" in displayValues))
-    {
-        // Store 'display value' in object for use in later calculations
-        displayValues.firstOperand = Number(calculatorDisplay.textContent);
-    }
-    else if (("operator" in displayValues) && event.target.textContent.match(/[0-9]/))
-    {
-        const operatorIndex = calculatorDisplay.textContent.search(/\d[-+*/]/) + 2;
-        displayValues.secondOperand = Number(calculatorDisplay.textContent.substring(operatorIndex));
     }
 }
 
 function addFunctionality()
 {
-    const numberButtons = document.querySelectorAll('button');
-    numberButtons.forEach(numberButton => {
-        numberButton.addEventListener('click', displayNumbers)
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(button => {
+        if (!(button.classList.contains('not-displayable')))
+        {
+            button.addEventListener('click', displayNumbers);
+        }
     });
 
     const buttonEquals = document.querySelector('#button-equals');
