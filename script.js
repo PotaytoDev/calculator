@@ -20,9 +20,15 @@ function divide(firstOperand, secondOperand)
     return firstOperand / secondOperand;
 }
 
-function displayResult(result)
+function displayResult(result = 0)
 {
     const calculatorDisplay = document.querySelector('#display');
+
+    if (result.toString().match(/\d\.\d/))
+    {
+        result = result.toPrecision(5);
+    }
+
     calculatorDisplay.textContent = result;
 }
 
@@ -46,8 +52,8 @@ function resetObjectValues(result)
     delete displayValues.operator;
     delete displayValues.secondOperand
     displayValues.firstOperand = result;
-    displayValues.hasBeenCalculated = true;
     enableOperatorButtons();
+    document.querySelector('#button-equals').disabled = true;
 }
 
 function operate()
@@ -102,9 +108,14 @@ function displayNumbers(event)
 
     if (calculatorDisplay.textContent.length >= 6) return;
 
-    if (!(calculatorDisplay.textContent.match(/\d[-+*/]/)))
+    const buttonEquals = document.querySelector('#button-equals');
+    const currentValueIsOperator = event.target.textContent.match(/[-+*/]/);
+
+    enableOperatorButtons();
+
+    if (calculatorDisplay.textContent.match(/\d[-+*/]\d/) && currentValueIsOperator)
     {
-        enableOperatorButtons();
+        operate();
     }
 
     if (calculatorDisplay.textContent === '0')
@@ -120,6 +131,11 @@ function displayNumbers(event)
     {
         disableOperatorButtons();
     }
+
+    if (calculatorDisplay.textContent.match(/\d[-+*/]\d/))
+    {
+        buttonEquals.disabled = false;
+    }
 }
 
 function addFunctionality()
@@ -134,6 +150,7 @@ function addFunctionality()
 
     const buttonEquals = document.querySelector('#button-equals');
     buttonEquals.addEventListener('click', operate);
+    buttonEquals.disabled = true;
 
     disableOperatorButtons();
 }
