@@ -113,15 +113,15 @@ function displayNumbers(event)
 {
     const calculatorDisplay = document.querySelector('#display');
 
-    if (calculatorDisplay.textContent.length >= 6) return;
-
-    const buttonEquals = document.querySelector('#button-equals');
-    const currentValueIsOperator = event.target.textContent.match(/[-+*/]/);
-
     if (event.target.textContent.match(/\d/) && displayValues.hasBeenCalculated)
     {
         clearCalculator();
     }
+
+    if (calculatorDisplay.textContent.length >= 6) return;
+
+    const buttonEquals = document.querySelector('#button-equals');
+    const currentValueIsOperator = event.target.textContent.match(/[-+*/]/);
 
     enableOperatorButtons();
 
@@ -132,7 +132,16 @@ function displayNumbers(event)
 
     if (calculatorDisplay.textContent === '0')
     {
-        calculatorDisplay.textContent = event.target.textContent;
+        if (event.target.textContent === '0') return;
+
+        if (!(currentValueIsOperator))
+        {
+            calculatorDisplay.textContent = event.target.textContent;
+        }
+        else
+        {
+            calculatorDisplay.textContent += event.target.textContent;
+        }
     }
     else
     {
