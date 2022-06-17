@@ -26,7 +26,7 @@ function displayResult(result = 0)
 
     if (result.toString().match(/\d\.\d/))
     {
-        result = result.toPrecision(5);
+        result = Number(result.toPrecision(5));
     }
 
     calculatorDisplay.textContent = result;
