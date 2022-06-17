@@ -46,11 +46,16 @@ function setObjectValues()
             Number(calculatorDisplayContent.substring(operatorIndex + 1));
 }
 
-
-function resetObjectValues(result)
+function deleteObjectValues()
 {
+    delete displayValues.firstOperand;
     delete displayValues.operator;
-    delete displayValues.secondOperand
+    delete displayValues.secondOperand;
+}
+
+function resetCalculatorAfterResult(result)
+{
+    deleteObjectValues();
     displayValues.firstOperand = result;
     enableOperatorButtons();
     document.querySelector('#button-equals').disabled = true;
@@ -87,7 +92,7 @@ function operate()
     }
 
     displayResult(result);
-    resetObjectValues(result);
+    resetCalculatorAfterResult(result);
 }
 
 function disableOperatorButtons()
@@ -138,6 +143,14 @@ function displayNumbers(event)
     }
 }
 
+function clearCalculator()
+{
+    document.querySelector('#display').textContent = '';
+    document.querySelector('#button-equals').disabled = true;
+    deleteObjectValues();
+    disableOperatorButtons();
+}
+
 function addFunctionality()
 {
     const buttons = document.querySelectorAll('button');
@@ -151,6 +164,9 @@ function addFunctionality()
     const buttonEquals = document.querySelector('#button-equals');
     buttonEquals.addEventListener('click', operate);
     buttonEquals.disabled = true;
+
+    const buttonClear = document.querySelector('#button-clear');
+    buttonClear.addEventListener('click', clearCalculator);
 
     disableOperatorButtons();
 }
