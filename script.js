@@ -51,12 +51,14 @@ function deleteObjectValues()
     delete displayValues.firstOperand;
     delete displayValues.operator;
     delete displayValues.secondOperand;
+    delete displayValues.hasBeenCalculated;
 }
 
 function resetCalculatorAfterResult(result)
 {
     deleteObjectValues();
     displayValues.firstOperand = result;
+    displayValues.hasBeenCalculated = true;
     enableOperatorButtons();
     document.querySelector('#button-equals').disabled = true;
 }
@@ -116,6 +118,11 @@ function displayNumbers(event)
     const buttonEquals = document.querySelector('#button-equals');
     const currentValueIsOperator = event.target.textContent.match(/[-+*/]/);
 
+    if (event.target.textContent.match(/\d/) && displayValues.hasBeenCalculated)
+    {
+        clearCalculator();
+    }
+
     enableOperatorButtons();
 
     if (calculatorDisplay.textContent.match(/\d[-+*/]\d/) && currentValueIsOperator)
@@ -135,6 +142,7 @@ function displayNumbers(event)
     if (event.target.textContent.match(/[-+*/]/))
     {
         disableOperatorButtons();
+        displayValues.hasBeenCalculated = false;
     }
 
     if (calculatorDisplay.textContent.match(/\d[-+*/]\d/))
