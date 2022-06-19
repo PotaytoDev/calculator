@@ -156,7 +156,10 @@ function displayNumbers(event)
     }
     else if (calculatorDisplay.textContent === displayValues.divideByZeroMessage)
     {
-        calculatorDisplay.textContent = event.target.textContent;
+        if (!(currentValueIsOperator))
+        {
+            calculatorDisplay.textContent = event.target.textContent;
+        }
     }
     else
     {
