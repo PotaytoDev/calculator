@@ -17,6 +17,11 @@ function multiply(firstOperand, secondOperand)
 
 function divide(firstOperand, secondOperand)
 {
+    if (secondOperand === 0)
+    {
+        displayValues.divideByZeroMessage = "Nope";
+        return displayValues.divideByZeroMessage;
+    }
     return firstOperand / secondOperand;
 }
 
@@ -57,9 +62,17 @@ function deleteObjectValues()
 function resetCalculatorAfterResult(result)
 {
     deleteObjectValues();
-    displayValues.firstOperand = result;
-    displayValues.hasBeenCalculated = true;
-    enableOperatorButtons();
+
+    if (typeof result === 'number')
+    {
+        displayValues.firstOperand = result;
+        displayValues.hasBeenCalculated = true;
+        enableOperatorButtons();
+    }
+    else
+    {
+        disableOperatorButtons();
+    }
     document.querySelector('#button-equals').disabled = true;
 }
 
@@ -71,8 +84,6 @@ function operate()
     let firstOperand = displayValues.firstOperand;
     let secondOperand = displayValues.secondOperand;
     let operator = displayValues.operator;
-
-    console.log(firstOperand, operator, secondOperand);
 
     switch (operator)
     {
@@ -142,6 +153,10 @@ function displayNumbers(event)
         {
             calculatorDisplay.textContent += event.target.textContent;
         }
+    }
+    else if (calculatorDisplay.textContent === displayValues.divideByZeroMessage)
+    {
+        calculatorDisplay.textContent = event.target.textContent;
     }
     else
     {
