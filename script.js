@@ -123,20 +123,37 @@ function enableOperatorButtons()
 function displayNumbers(event)
 {
     const calculatorDisplay = document.querySelector('#display');
+    let operatorHasBeenUsed = false;
 
     if (event.target.textContent.match(/\d/) && displayValues.hasBeenCalculated)
     {
         clearCalculator();
     }
 
-    if (calculatorDisplay.textContent.length >= 6) return;
+    if (calculatorDisplay.textContent.length >= 10) return;
 
     const buttonEquals = document.querySelector('#button-equals');
     const currentValueIsOperator = event.target.textContent.match(/[-+*/]/);
 
+    if (currentValueIsOperator)
+    {
+        operatorHasBeenUsed = true;
+    }
+
+    if (operatorHasBeenUsed)
+    {
+        document.querySelector('#button-decimal').disabled = false;
+    }
+
     enableOperatorButtons();
 
-    if (calculatorDisplay.textContent.match(/\d[-+*/]\d/) && currentValueIsOperator)
+    if (event.target.textContent === '.')
+    {
+        document.querySelector('#button-decimal').disabled = true;
+        disableOperatorButtons();
+    }
+
+    if (calculatorDisplay.textContent.match(/\d[-+*/]\.?\d/) && currentValueIsOperator)
     {
         operate();
     }
@@ -172,7 +189,7 @@ function displayNumbers(event)
         displayValues.hasBeenCalculated = false;
     }
 
-    if (calculatorDisplay.textContent.match(/\d[-+*/]\d/))
+    if (calculatorDisplay.textContent.match(/\d[-+*/]\.?\d/))
     {
         buttonEquals.disabled = false;
     }
@@ -182,6 +199,7 @@ function clearCalculator()
 {
     document.querySelector('#display').textContent = '';
     document.querySelector('#button-equals').disabled = true;
+    document.querySelector('#button-decimal').disabled = false;
     deleteObjectValues();
     disableOperatorButtons();
 }
