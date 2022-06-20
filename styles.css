@@ -3,80 +3,127 @@
 }
 
 body {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 0;
   padding: 0;
-  height: 100vh;
+  height: 95vh;
+  background-color: #2F4858;
 }
 
 /* Calculator Container */
 
 #calculator-container {
-  background-color: black;
+  background-color: #4E8A68;
+  border: 2px outset #2A4A38;
+  box-shadow: 7px 7px 10px black;
+  border-radius: 10px;
   padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 30px;
-  max-width: 500px;
+  width: 515px;
+  height: 600px;
 }
 
 /* Display Container */
 
 #display-container {
-  height: 100px;
-  background-color: white;
+  height: 110px;
+  /* background-color: #F3EADA; */
   display: flex;
-  
+  border: 5px inset #407055;
+  border-radius: 8px;
 }
 
 #display {
+  background-color: #F3EADA;
   display: flex;
   font-size: 100px;
   justify-content: flex-end;
   align-items: center;
   flex: 1;
+  padding: 10px;
 }
 
-/* Calculator Buttons Container */
+/* Buttons Container */
 
-#calculator-buttons-container {
-  display: flex;
-  flex: 1;
-  gap: 20px;
-}
-
-/* Bottom Left Container */
-
-#bottom-left-container {
-  display: flex;
-}
-
-/* Number Buttons Container */
-
-#number-buttons-container {
+#buttons-container {
   display: flex;
   flex-direction: column;
   gap: 3px;
-  flex: 1
+  flex: 1;
 }
 
-/* Operator Buttons Container */
+/* Button Rows */
 
-#operator-buttons-container {
+.button-row {
   display: flex;
-  flex-direction: column;
+  flex: 1;
   gap: 3px;
 }
 
 /* Buttons */
 
 button {
-  height: 75px;
-  width: 75px;
-  background-color: white;
+  flex: 1;
   border: none;
   border-radius: 8px;
   padding: 12px;
+  font-size: 30px;
+  border: 3px outset #4E8A68;
+  box-shadow: 4px 4px 10px #407055;
+}
+
+.number-button {
+  background-color: #F3EADA;
+}
+
+.number-button:hover {
+  background-color: #FFF6E6;
+}
+
+.number-button:active {
+  background-color: #D9D1C3;
+}
+
+.operator-button,
+#button-clear,
+#button-decimal {
+  background-color: #FFA17A;
+}
+
+.operator-button:hover,
+#button-clear:hover,
+#button-decimal:hover {
+  background-color: #FFAF8C;
+}
+
+.operator-button:disabled,
+#button-decimal:disabled {
+  background-color: #BF7A5C;
+}
+
+.operator-button:active,
+#button-clear:active,
+#button-decimal:active {
+  background-color: #E6926E;
+}
+
+#button-equals {
+  background-color: #FF5252;
+}
+
+#button-equals:hover {
+  background-color: #FF6B6B;
+}
+
+#button-equals:disabled {
+  background-color: #CC4141;
+}
+
+#button-equals:active {
+  background-color: #E64949;
 }
