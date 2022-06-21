@@ -35,6 +35,7 @@ function displayResult(result = 0)
     }
 
     calculatorDisplay.textContent = result;
+    determineDisplayFontSize(calculatorDisplay);
 }
 
 function setObjectValues()
@@ -120,6 +121,19 @@ function enableOperatorButtons()
     operatorButtons.forEach(operatorButton => operatorButton.disabled = false);
 }
 
+function determineDisplayFontSize(calculatorDisplay)
+{
+    if (calculatorDisplay.textContent.length <= 8)
+    {
+        calculatorDisplay.style.fontSize = '100px';
+    }
+    else if (calculatorDisplay.textContent.length >= 9 &&
+                calculatorDisplay.textContent.length <= 15)
+    {
+        calculatorDisplay.style.fontSize = '50px';
+    }
+}
+
 function displayNumbers(event)
 {
     const calculatorDisplay = document.querySelector('#display');
@@ -130,7 +144,7 @@ function displayNumbers(event)
         clearCalculator();
     }
 
-    if (calculatorDisplay.textContent.length >= 10) return;
+    if (calculatorDisplay.textContent.length >= 16) return;
 
     const buttonEquals = document.querySelector('#button-equals');
     const currentValueIsOperator = event.target.textContent.match(/[-+*/]/);
@@ -198,6 +212,8 @@ function displayNumbers(event)
     {
         buttonEquals.disabled = true;
     }
+
+    determineDisplayFontSize(calculatorDisplay);
 }
 
 function clearCalculator()
@@ -226,6 +242,8 @@ function deleteCharacter()
 
     calculatorDisplay.textContent = 
             calculatorDisplay.textContent.substring(0, characterToDeleteIndex);
+
+    determineDisplayFontSize(calculatorDisplay);
 
     const lastCharacter = calculatorDisplay.textContent.charAt(characterToDeleteIndex - 1);
 
