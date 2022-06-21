@@ -125,7 +125,7 @@ function displayNumbers(event)
     const calculatorDisplay = document.querySelector('#display');
     let operatorHasBeenUsed = false;
 
-    if (event.target.textContent.match(/\d/) && displayValues.hasBeenCalculated)
+    if (event.target.textContent.match(/[\d\.]/) && displayValues.hasBeenCalculated)
     {
         clearCalculator();
     }
@@ -160,9 +160,7 @@ function displayNumbers(event)
 
     if (calculatorDisplay.textContent === '0')
     {
-        if (event.target.textContent === '0') return;
-
-        if (!(currentValueIsOperator))
+        if (event.target.textContent.match(/\d/))
         {
             calculatorDisplay.textContent = event.target.textContent;
         }
@@ -209,6 +207,12 @@ function deleteCharacter()
     const calculatorDisplay = document.querySelector('#display');
 
     if (calculatorDisplay.textContent === '') return;
+    if (calculatorDisplay.textContent === displayValues.divideByZeroMessage ||
+                displayValues.hasBeenCalculated)
+    {
+        clearCalculator();
+        return;
+    }
 
     const characterToDeleteIndex = calculatorDisplay.textContent.length - 1;
     const deletedCharacter = calculatorDisplay.textContent.charAt(characterToDeleteIndex);
