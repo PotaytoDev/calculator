@@ -210,21 +210,23 @@ function deleteCharacter()
 
     if (calculatorDisplay.textContent === '') return;
 
-    const lastCharacterIndex = calculatorDisplay.textContent.length - 1;
-    const deletedCharacter = calculatorDisplay.textContent.charAt(lastCharacterIndex);
+    const characterToDeleteIndex = calculatorDisplay.textContent.length - 1;
+    const deletedCharacter = calculatorDisplay.textContent.charAt(characterToDeleteIndex);
 
     calculatorDisplay.textContent = 
-            calculatorDisplay.textContent.substring(0, lastCharacterIndex);
+            calculatorDisplay.textContent.substring(0, characterToDeleteIndex);
+
+    const lastCharacter = calculatorDisplay.textContent.charAt(characterToDeleteIndex - 1);
 
     document.querySelector('#button-equals').disabled = true;
-    disableOperatorButtons();
+    enableOperatorButtons();
 
     // This array shows how many decimal points are on display, which will help
     // to determine when to disable the decimal point (to not allow more than
     // two at once)
     const decimalPointsArray = [...calculatorDisplay.textContent.matchAll(/\./g)];
 
-    const operatorOnDisplay = calculatorDisplay.textContent.match(/[/*+-]/);
+    const operatorOnDisplay = calculatorDisplay.textContent.match(/[-+*/]/);
 
     if (deletedCharacter === '.')
     {
@@ -238,9 +240,9 @@ function deleteCharacter()
         document.querySelector('#button-decimal').disabled = true;
     }
 
-    if (deletedCharacter.match(/[-+*/]/))
+    if (calculatorDisplay.textContent === '' || lastCharacter.match(/[-+*/]/))
     {
-        enableOperatorButtons();
+        disableOperatorButtons();
     }
     
     if (calculatorDisplay.textContent.match(/\d[-+*/]\.?\d/))
