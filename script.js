@@ -204,6 +204,51 @@ function clearCalculator()
     disableOperatorButtons();
 }
 
+function deleteCharacter()
+{
+    const calculatorDisplay = document.querySelector('#display');
+
+    if (calculatorDisplay.textContent === '') return;
+
+    const lastCharacterIndex = calculatorDisplay.textContent.length - 1;
+    const deletedCharacter = calculatorDisplay.textContent.charAt(lastCharacterIndex);
+
+    calculatorDisplay.textContent = 
+            calculatorDisplay.textContent.substring(0, lastCharacterIndex);
+
+    document.querySelector('#button-equals').disabled = true;
+    disableOperatorButtons();
+
+    // This array shows how many decimal points are on display, which will help
+    // to determine when to disable the decimal point (to not allow more than
+    // two at once)
+    const decimalPointsArray = [...calculatorDisplay.textContent.matchAll(/\./g)];
+
+    const operatorOnDisplay = calculatorDisplay.textContent.match(/[/*+-]/);
+
+    if (deletedCharacter === '.')
+    {
+        document.querySelector('#button-decimal').disabled = false;
+    }
+
+    // Only allow one decimal point to be used per operand
+    if ((!(operatorOnDisplay) && decimalPointsArray.length === 1) ||
+                (operatorOnDisplay && decimalPointsArray.length === 2))
+    {
+        document.querySelector('#button-decimal').disabled = true;
+    }
+
+    if (deletedCharacter.match(/[-+*/]/))
+    {
+        enableOperatorButtons();
+    }
+    
+    if (calculatorDisplay.textContent.match(/\d[-+*/]\.?\d/))
+    {
+        document.querySelector('#button-equals').disabled = false;
+    }
+}
+
 function addFunctionality()
 {
     const buttons = document.querySelectorAll('button');
@@ -220,6 +265,9 @@ function addFunctionality()
 
     const buttonClear = document.querySelector('#button-clear');
     buttonClear.addEventListener('click', clearCalculator);
+
+    const buttonBackspace = document.querySelector('#button-backspace');
+    buttonBackspace.addEventListener('click', deleteCharacter);
 
     disableOperatorButtons();
 }

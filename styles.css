@@ -32,14 +32,13 @@ body {
 
 #display-container {
   height: 110px;
-  /* background-color: #F3EADA; */
+  background-color: #F3EADA;
   display: flex;
   border: 5px inset #407055;
   border-radius: 8px;
 }
 
 #display {
-  background-color: #F3EADA;
   display: flex;
   font-size: 100px;
   justify-content: flex-end;
@@ -113,17 +112,35 @@ button {
 }
 
 #button-equals {
-  background-color: #FF5252;
+  flex: 3.75;
+  background-color: #7AD6A2;
 }
 
 #button-equals:hover {
-  background-color: #FF6B6B;
+  background-color: #81E3AC;
 }
 
 #button-equals:disabled {
-  background-color: #CC4141;
+  background-color: #64B085;
 }
 
 #button-equals:active {
+  background-color: #6CBD8F;
+}
+
+#button-backspace {
+  flex: 1;
+  background-color: #FF5252;
+}
+
+#button-backspace:hover {
+  background-color: #FF6B6B;
+}
+
+#button-backspace:disabled {
+  background-color: #CC4141;
+}
+
+#button-backspace:active {
   background-color: #E64949;
 }
