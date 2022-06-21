@@ -249,6 +249,48 @@ function deleteCharacter()
     }
 }
 
+function handleKeyboardSupport(event)
+{
+    if (event.key.match(/\d/))
+    {
+        document.querySelector(`#button-${event.key}`).click();
+    }
+    else if (event.key.match(/[-+*/=\.]/) || event.key === 'Enter' ||
+                event.key === 'Backspace' || event.key === 'c')
+    {
+        switch (event.key)
+        {
+            case '-':
+                document.querySelector('#button-subtraction').click();
+                break;
+            case '+':
+                document.querySelector('#button-addition').click();
+                break;
+            case '*':
+                document.querySelector('#button-multiplication').click();
+                break;
+            case '/':
+                document.querySelector('#button-division').click();
+                break;
+            case '=':
+            case 'Enter':
+                document.querySelector('#button-equals').click();
+                break;
+            case '.':
+                document.querySelector('#button-decimal').click();
+                break;
+            case 'c':
+                document.querySelector('#button-clear').click();
+                break;
+            case 'Backspace':
+                document.querySelector('#button-backspace').click();
+                break;
+            default:
+                console.log("Something went wrong, this is " + event.key);
+        }
+    }
+}
+
 function addFunctionality()
 {
     const buttons = document.querySelectorAll('button');
@@ -268,6 +310,8 @@ function addFunctionality()
 
     const buttonBackspace = document.querySelector('#button-backspace');
     buttonBackspace.addEventListener('click', deleteCharacter);
+
+    document.addEventListener('keydown', handleKeyboardSupport);
 
     disableOperatorButtons();
 }
