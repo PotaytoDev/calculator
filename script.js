@@ -191,6 +191,13 @@ function displayNumbers(event)
     {
         buttonEquals.disabled = false;
     }
+
+    const lastOperatorIndex = calculatorDisplay.textContent.length - 1;
+
+    if (calculatorDisplay.textContent.charAt(lastOperatorIndex) === '.')
+    {
+        buttonEquals.disabled = true;
+    }
 }
 
 function clearCalculator()
@@ -244,7 +251,8 @@ function deleteCharacter()
         document.querySelector('#button-decimal').disabled = true;
     }
 
-    if (calculatorDisplay.textContent === '' || lastCharacter.match(/[-+*/]/))
+    if (calculatorDisplay.textContent === '' || lastCharacter.match(/[-+*/]/) ||
+                lastCharacter === '.')
     {
         disableOperatorButtons();
     }
@@ -252,6 +260,11 @@ function deleteCharacter()
     if (calculatorDisplay.textContent.match(/\d[-+*/]\.?\d/))
     {
         document.querySelector('#button-equals').disabled = false;
+    }
+
+    if (lastCharacter === '.')
+    {
+        document.querySelector('#button-equals').disabled = true;
     }
 }
 
