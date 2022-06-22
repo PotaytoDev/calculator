@@ -123,12 +123,17 @@ function enableOperatorButtons()
 
 function determineDisplayFontSize(calculatorDisplay)
 {
-    if (calculatorDisplay.textContent.length <= 8)
+    const calculatorDisplayLength = calculatorDisplay.textContent.length;
+
+    if (calculatorDisplayLength <= 8)
     {
         calculatorDisplay.style.fontSize = '100px';
     }
-    else if (calculatorDisplay.textContent.length >= 9 &&
-                calculatorDisplay.textContent.length <= 15)
+    else if (calculatorDisplayLength >= 9 && calculatorDisplayLength <= 12)
+    {
+        calculatorDisplay.style.fontSize = '65px';
+    }
+    else if (calculatorDisplayLength >= 13)
     {
         calculatorDisplay.style.fontSize = '50px';
     }
