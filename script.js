@@ -298,7 +298,7 @@ function handleKeyboardSupport(event)
         document.querySelector(`#button-${event.key}`).click();
     }
     else if (event.key.match(/[-+*/=\.]/) || event.key === 'Enter' ||
-                event.key === 'Backspace' || event.key === 'c')
+                event.key === 'Backspace' || event.key === 'c' || event.key === 'x')
     {
         switch (event.key)
         {
@@ -309,6 +309,7 @@ function handleKeyboardSupport(event)
                 document.querySelector('#button-addition').click();
                 break;
             case '*':
+            case 'x':
                 document.querySelector('#button-multiplication').click();
                 break;
             case '/':
